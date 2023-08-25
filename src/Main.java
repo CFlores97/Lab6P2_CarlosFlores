@@ -439,7 +439,7 @@ public class Main extends javax.swing.JFrame {
             jd_estacionaria.setVisible(true);
             jd_estacionaria.pack();
             jd_estacionaria.setLocationRelativeTo(this);
-            
+
         }
     }//GEN-LAST:event_cb_tipoConsolaItemStateChanged
 
@@ -456,7 +456,7 @@ public class Main extends javax.swing.JFrame {
             jt_consolas.setModel(model);
 
             jd_portatil.setVisible(false);
-            
+
             tf_identificacion.setText("");
             tf_anyosUso.setText("");
             tf_almacenamiento.setText("");
@@ -484,12 +484,10 @@ public class Main extends javax.swing.JFrame {
             int numControles = Integer.parseInt(sp_numcontroles.getModel().getValue().toString());
             int almacenamiento = Integer.parseInt(tf_almacenamiento.getText());
             String conexiones = cb_conexiones.getModel().getSelectedItem().toString();
-            
-            
-            Estacionaria temp = new Estacionaria(numControles, almacenamiento,conexiones , tf_identificacion.getText(), tf_fabricante.getText(), tf_modelo.getText(), Integer.parseInt(tf_anyosUso.getText()), Double.parseDouble(tf_precio.getText()));
-            
-            //Estacionaria temp = new Estacionaria((int)sp_numcontroles.getModel().getValue(), tf_almacenamiento.getText(), cb_conexiones.getModel().getSelectedItem(), tf_identificacion.getText(), tf_fabricante.getText(), tf_modelo.getText(), Integer.parseInt(tf_anyosUso.getText()), tf_precio.getText());
 
+            Estacionaria temp = new Estacionaria(numControles, almacenamiento, conexiones, tf_identificacion.getText(), tf_fabricante.getText(), tf_modelo.getText(), Integer.parseInt(tf_anyosUso.getText()), Double.parseDouble(tf_precio.getText()));
+
+            //Estacionaria temp = new Estacionaria((int)sp_numcontroles.getModel().getValue(), tf_almacenamiento.getText(), cb_conexiones.getModel().getSelectedItem(), tf_identificacion.getText(), tf_fabricante.getText(), tf_modelo.getText(), Integer.parseInt(tf_anyosUso.getText()), tf_precio.getText());
             Object[] row = {temp.getIdentificacion(), temp.getFabricante(), temp.getModelo(), temp.getAñosUso(), temp.getPrecio(), 0, 0, hasEst, temp.getNumControles(), temp.getAlmacenamiento(), temp.getTipoConexion(), cb_tipoConsola.getSelectedItem().toString()};
 
             model.addRow(row);
@@ -497,7 +495,7 @@ public class Main extends javax.swing.JFrame {
             jt_consolas.setModel(model);
 
             jd_estacionaria.setVisible(false);
-            
+
             tf_identificacion.setText("");
             tf_anyosUso.setText("");
             tf_almacenamiento.setText("");
@@ -518,13 +516,86 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_jt_consolasMouseClicked
 
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
-        // TODO add your handling code here:
+        Object selRowType = jt_consolas.getValueAt(jt_consolas.getSelectedRow(), 11);
+
+        DefaultTableModel model = (DefaultTableModel) jt_consolas.getModel();
+
+        if (selRowType.equals("Portatil")) {
+
+            String identificacion, fabricante, modelo;
+            int añosUso;
+            double precio;
+            String pantalla;
+            int bateria;
+            boolean hasEstuche;
+
+            identificacion = JOptionPane.showInputDialog("Ingrese la nueva identifiacion");
+            fabricante = JOptionPane.showInputDialog("Ingrese el nuevo fabricante");
+            modelo = JOptionPane.showInputDialog("Ingrese el nuevo modelo");
+            pantalla = JOptionPane.showInputDialog("Ingrese la pantalla");
+
+            añosUso = Integer.parseInt(JOptionPane.showInputDialog("Ingrese los años de uso"));
+            bateria = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la bateria"));
+
+            precio = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio"));
+
+            String tieneEstuche = JOptionPane.showInputDialog("Tiene estuche? Responda si o no");
+
+            if (tieneEstuche.equalsIgnoreCase("si")) {
+                hasEstuche = true;
+            } else {
+                hasEstuche = false;
+            }
+
+            Portatil temp = new Portatil(pantalla, bateria, hasEstuche, identificacion, fabricante, modelo, añosUso, precio);
+
+            Object[] row = {temp.getIdentificacion(), temp.getFabricante(), temp.getModelo(), temp.getAñosUso(), temp.getPrecio(), temp.getPantalla(), temp.getBateria(), hasEstuche, 0, 0, 0, cb_tipoConsola.getSelectedItem().toString()};
+
+            int selRow = jt_consolas.getSelectedRow();
+            model.removeRow(selRow);
+
+            model.addRow(row);
+
+            jt_consolas.setModel(model);
+
+        }
+
+        if (selRowType.equals("Estacionaria")) {
+
+            String identificacion, fabricante, modelo;
+            int añosUso;
+            double precio;
+            int numControles, almacenamiento;
+            String tipoConexion;
+
+            identificacion = JOptionPane.showInputDialog("Ingrese la nueva identifiacion");
+            fabricante = JOptionPane.showInputDialog("Ingrese el nuevo fabricante");
+            modelo = JOptionPane.showInputDialog("Ingrese el nuevo modelo");
+            tipoConexion = JOptionPane.showInputDialog("Ingrese el tipo de conexion");
+
+            añosUso = Integer.parseInt(JOptionPane.showInputDialog("Ingrese los años de uso"));
+            numControles = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el numero de controles"));
+            almacenamiento = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el almacenamiento"));
+
+            precio = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio"));
+
+            Estacionaria temp = new Estacionaria(numControles, almacenamiento, tipoConexion, identificacion, fabricante, modelo, añosUso, precio);
+
+            Object[] row = {temp.getIdentificacion(), temp.getFabricante(), temp.getModelo(), temp.getAñosUso(), temp.getPrecio(), 0, 0, hasEst, temp.getNumControles(), temp.getAlmacenamiento(), temp.getTipoConexion(), cb_tipoConsola.getSelectedItem().toString()};
+
+            int selRow = jt_consolas.getSelectedRow();
+            model.removeRow(selRow);
+
+            model.addRow(row);
+
+            jt_consolas.setModel(model);
+        }
     }//GEN-LAST:event_ModificarActionPerformed
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         int ans = JOptionPane.showConfirmDialog(this, "Seguro que desea eliminar la consola?");
-        
-        if(ans == JOptionPane.OK_OPTION){
+
+        if (ans == JOptionPane.OK_OPTION) {
             DefaultTableModel model = (DefaultTableModel) jt_consolas.getModel();
             int selRow = jt_consolas.getSelectedRow();
             model.removeRow(selRow);
@@ -533,29 +604,7 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarActionPerformed
 
     private void ModificarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ModificarItemStateChanged
-        Object selRowType = jt_consolas.getValueAt(jt_consolas.getSelectedRow(), jt_consolas.getSelectedColumn());
-        
-        if (selRowType.equals("Portatil")) {
-            DefaultTableModel model = (DefaultTableModel) jt_consolas.getModel();
-            
-            String identificacion, fabricante, modelo;
-            int añosUso;
-            double precio;
-            String pantalla;
-            int bateria;
-            boolean hasEstuche;
-            
-            
-        }
-        if (selRowType.equals("Estacionaria")) {
-            DefaultTableModel model = (DefaultTableModel) jt_consolas.getModel();
-            
-            String identificacion, fabricante, modelo;
-            int añosUso;
-            double precio;
-            int numControles, almacenamiento;
-            String tipoConexion;
-        }
+
     }//GEN-LAST:event_ModificarItemStateChanged
 
     public static void main(String args[]) {
