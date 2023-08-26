@@ -995,26 +995,34 @@ public class Main extends javax.swing.JFrame {
         String nombre, descripcion, estado;
         Date fechaLanz;
         double precio;
-        boolean isRentable, isAgregado;
+        boolean isRentable = false, isAgregado = false;
         int cantDisp;
-        
+
         nombre = JOptionPane.showInputDialog("Ingrese nombre");
-        descripcion= JOptionPane.showInputDialog("Ingrese descripcion");
+        descripcion = JOptionPane.showInputDialog("Ingrese descripcion");
         estado = JOptionPane.showInputDialog("Ingrese estado");
         String fecha = JOptionPane.showInputDialog("Ingrese fecha");
         fechaLanz = new Date(fecha);
         precio = Double.parseDouble(JOptionPane.showInputDialog("Ingrese precio"));
         String agregado = JOptionPane.showInputDialog("Ingrese estado");
         String rentable = JOptionPane.showInputDialog("Ingrese fecha");
-        if(agregado.equalsIgnoreCase("Si")){
+        if (agregado.equalsIgnoreCase("Si")) {
             isAgregado = true;
         }
-        if(rentable.equalsIgnoreCase("Si")){
+        if (rentable.equalsIgnoreCase("Si")) {
             isRentable = true;
         }
         cantDisp = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad disponible"));
-        
-        
+        DefaultListModel modeloLISTA = (DefaultListModel) jl_juegos.getModel();
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setNombre(nombre);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setDescripcion(descripcion);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setEstado(estado);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setFechaLanz(fechaLanz);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setPrecio(precio);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setIsAgregado(isAgregado);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setIsRentable(isRentable);
+        ((Juego) modeloLISTA.get(jl_juegos.getSelectedIndex())).setCantDisp(cantDisp);
+        jl_juegos.setModel(modeloLISTA);
     }//GEN-LAST:event_ModificarJActionPerformed
 
     public static void main(String args[]) {
