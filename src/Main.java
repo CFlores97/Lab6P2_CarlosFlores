@@ -521,6 +521,11 @@ public class Main extends javax.swing.JFrame {
         );
 
         ModificarJ.setText("Modificar");
+        ModificarJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarJActionPerformed(evt);
+            }
+        });
         jp_showMenuJ.add(ModificarJ);
 
         EliminarJ.setText("Eliminar");
@@ -736,19 +741,17 @@ public class Main extends javax.swing.JFrame {
     private void btn_addPortatilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_addPortatilMouseClicked
 
         try {
-            
+
             DefaultTableModel model = (DefaultTableModel) jt_consolas.getModel();
             Portatil temp = new Portatil(tf_pantalla.getText(), Integer.parseInt(tf_bateria.getText()), hasEst, tf_identificacion.getText(), tf_fabricante.getText(), tf_modelo.getText(), Integer.parseInt(tf_anyosUso.getText()), Integer.parseInt(tf_precio.getText()));
             String tieneEst = cb_hasEstuche.getSelectedItem().toString();
             Object[] row = {temp.getIdentificacion(), temp.getFabricante(), temp.getModelo(), temp.getAñosUso(), temp.getPrecio(), temp.getPantalla(), temp.getBateria(), tieneEst, 0, 0, 0, cb_tipoConsola.getSelectedItem().toString()};
 
             tienda.getConsolas().add(temp);
-            
+
             model.addRow(row);
-            
 
             jt_consolas.setModel(model);
-            
 
             jd_portatil.setVisible(false);
 
@@ -759,8 +762,6 @@ public class Main extends javax.swing.JFrame {
             tf_modelo.setText("");
             tf_pantalla.setText("");
             tf_precio.setText("");
-            
-            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocurrio un error y no se puede agregar");
@@ -883,7 +884,7 @@ public class Main extends javax.swing.JFrame {
             Object[] row = {temp.getIdentificacion(), temp.getFabricante(), temp.getModelo(), temp.getAñosUso(), temp.getPrecio(), 0, 0, hasEst, temp.getNumControles(), temp.getAlmacenamiento(), temp.getTipoConexion(), cb_tipoConsola.getSelectedItem().toString()};
 
             tienda.getConsolas().set(jt_consolas.getSelectedRow(), temp);
-            
+
             int selRow = jt_consolas.getSelectedRow();
             model.removeRow(selRow);
 
@@ -910,30 +911,30 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_ModificarItemStateChanged
 
     private void btn_changeAddMenuPortMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_changeAddMenuPortMouseClicked
-        
+
         jd_addJuego.setVisible(true);
         jd_addJuego.pack();
         jd_addJuego.setLocationRelativeTo(jd_portatil);
-        
-        
+
+
     }//GEN-LAST:event_btn_changeAddMenuPortMouseClicked
 
     private void btn_addJuegoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_addJuegoMouseClicked
         DefaultListModel modelList = (DefaultListModel) jl_juegos.getModel();
         boolean isRentable = false;
-        boolean isAgregado= false;
-        
+        boolean isAgregado = false;
+
         if (cb_rentable.getSelectedItem().equals("Si")) {
             isRentable = true;
         }
         if (cb_agregado.getSelectedItem().equals("Si")) {
             isAgregado = true;
         }
-        
-        juegos.add(new Juego(tf_nombre.getText(), tf_descripcion.getText(), cb_estado.getSelectedItem().toString(), dc_date.getDate(), Double.parseDouble(tf_precioJuego.getText()), isRentable, isAgregado, (int)sp_cantDisp.getModel().getValue()));
-        
-        modelList.addElement(new Juego(tf_nombre.getText(), tf_descripcion.getText(), cb_estado.getSelectedItem().toString(), dc_date.getDate(), Double.parseDouble(tf_precioJuego.getText()), isRentable, isAgregado, (int)sp_cantDisp.getModel().getValue()));
-        
+
+        juegos.add(new Juego(tf_nombre.getText(), tf_descripcion.getText(), cb_estado.getSelectedItem().toString(), dc_date.getDate(), Double.parseDouble(tf_precioJuego.getText()), isRentable, isAgregado, (int) sp_cantDisp.getModel().getValue()));
+
+        modelList.addElement(new Juego(tf_nombre.getText(), tf_descripcion.getText(), cb_estado.getSelectedItem().toString(), dc_date.getDate(), Double.parseDouble(tf_precioJuego.getText()), isRentable, isAgregado, (int) sp_cantDisp.getModel().getValue()));
+
         tf_almacenamiento.setText("");
         tf_anyosUso.setText("");
         tf_bateria.setText("");
@@ -943,7 +944,7 @@ public class Main extends javax.swing.JFrame {
         cb_rentable.setSelectedIndex(-1);
         cb_agregado.setSelectedIndex(-1);
         sp_cantDisp.setValue(0);
-        
+
         JOptionPane.showMessageDialog(jd_addJuego, "Se ha agregado exitosamente");
         jd_addJuego.setVisible(false);
     }//GEN-LAST:event_btn_addJuegoMouseClicked
@@ -952,8 +953,8 @@ public class Main extends javax.swing.JFrame {
         jd_listaJuegos.pack();
         jd_listaJuegos.setVisible(true);
         jd_listaJuegos.setLocationRelativeTo(this);
-        
-        
+
+
     }//GEN-LAST:event_JuegosActionPerformed
 
     private void btn_changeAddMenuPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_changeAddMenuPortActionPerformed
@@ -971,25 +972,50 @@ public class Main extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_changeAddMenuEstActionPerformed
 
     private void EliminarJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarJActionPerformed
-        
-        
+
         int ans = JOptionPane.showConfirmDialog(this, "Seguro que desea eliminar la consola?");
 
         if (ans == JOptionPane.OK_OPTION) {
             DefaultListModel ml = (DefaultListModel) jl_juegos.getModel();
             int selRow = jl_juegos.getSelectedIndex();
             ml.removeElementAt(selRow);
-            
+
             jl_juegos.setModel(ml);
         }
-        
+
     }//GEN-LAST:event_EliminarJActionPerformed
 
     private void jl_juegosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_juegosMouseClicked
-        if (evt.isMetaDown()){
+        if (evt.isMetaDown()) {
             jp_showMenuJ.show(evt.getComponent(), evt.getX(), evt.getY());
         }
     }//GEN-LAST:event_jl_juegosMouseClicked
+
+    private void ModificarJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarJActionPerformed
+        String nombre, descripcion, estado;
+        Date fechaLanz;
+        double precio;
+        boolean isRentable, isAgregado;
+        int cantDisp;
+        
+        nombre = JOptionPane.showInputDialog("Ingrese nombre");
+        descripcion= JOptionPane.showInputDialog("Ingrese descripcion");
+        estado = JOptionPane.showInputDialog("Ingrese estado");
+        String fecha = JOptionPane.showInputDialog("Ingrese fecha");
+        fechaLanz = new Date(fecha);
+        precio = Double.parseDouble(JOptionPane.showInputDialog("Ingrese precio"));
+        String agregado = JOptionPane.showInputDialog("Ingrese estado");
+        String rentable = JOptionPane.showInputDialog("Ingrese fecha");
+        if(agregado.equalsIgnoreCase("Si")){
+            isAgregado = true;
+        }
+        if(rentable.equalsIgnoreCase("Si")){
+            isRentable = true;
+        }
+        cantDisp = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad disponible"));
+        
+        
+    }//GEN-LAST:event_ModificarJActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1026,7 +1052,7 @@ public class Main extends javax.swing.JFrame {
     public boolean hasEst;
     Tienda tienda = new Tienda();
     ArrayList<Juego> juegos = new ArrayList<>();
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Eliminar;
