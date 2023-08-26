@@ -35,6 +35,7 @@ public class Main extends javax.swing.JFrame {
         tf_almacenamiento = new javax.swing.JTextField();
         cb_conexiones = new javax.swing.JComboBox<>();
         btn_addEstacionaria = new javax.swing.JButton();
+        btn_changeAddMenuEst = new javax.swing.JButton();
         jp_showMenu = new javax.swing.JPopupMenu();
         Modificar = new javax.swing.JMenuItem();
         Eliminar = new javax.swing.JMenuItem();
@@ -64,6 +65,9 @@ public class Main extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jl_juegos = new javax.swing.JList<>();
         jLabel23 = new javax.swing.JLabel();
+        jp_showMenuJ = new javax.swing.JPopupMenu();
+        ModificarJ = new javax.swing.JMenuItem();
+        EliminarJ = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -116,6 +120,11 @@ public class Main extends javax.swing.JFrame {
         btn_changeAddMenuPort.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btn_changeAddMenuPortMouseClicked(evt);
+            }
+        });
+        btn_changeAddMenuPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_changeAddMenuPortActionPerformed(evt);
             }
         });
 
@@ -204,6 +213,18 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
+        btn_changeAddMenuEst.setText("Agregar Juego");
+        btn_changeAddMenuEst.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_changeAddMenuEstMouseClicked(evt);
+            }
+        });
+        btn_changeAddMenuEst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_changeAddMenuEstActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -224,7 +245,11 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(91, 91, 91)
                         .addComponent(btn_addEstacionaria, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(299, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btn_changeAddMenuEst, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,7 +266,9 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(cb_conexiones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addGap(20, 20, 20)
+                .addComponent(btn_changeAddMenuEst, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addComponent(btn_addEstacionaria, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(48, 48, 48))
         );
@@ -447,10 +474,11 @@ public class Main extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(38, 38, 38));
 
-        jl_juegos.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jl_juegos.setModel(new DefaultListModel());
+        jl_juegos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_juegosMouseClicked(evt);
+            }
         });
         jScrollPane2.setViewportView(jl_juegos);
 
@@ -491,6 +519,17 @@ public class Main extends javax.swing.JFrame {
             jd_listaJuegosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        ModificarJ.setText("Modificar");
+        jp_showMenuJ.add(ModificarJ);
+
+        EliminarJ.setText("Eliminar");
+        EliminarJ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarJActionPerformed(evt);
+            }
+        });
+        jp_showMenuJ.add(EliminarJ);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -704,9 +743,12 @@ public class Main extends javax.swing.JFrame {
             Object[] row = {temp.getIdentificacion(), temp.getFabricante(), temp.getModelo(), temp.getAñosUso(), temp.getPrecio(), temp.getPantalla(), temp.getBateria(), tieneEst, 0, 0, 0, cb_tipoConsola.getSelectedItem().toString()};
 
             tienda.getConsolas().add(temp);
+            
             model.addRow(row);
+            
 
             jt_consolas.setModel(model);
+            
 
             jd_portatil.setVisible(false);
 
@@ -717,6 +759,8 @@ public class Main extends javax.swing.JFrame {
             tf_modelo.setText("");
             tf_pantalla.setText("");
             tf_precio.setText("");
+            
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocurrio un error y no se puede agregar");
@@ -879,12 +923,14 @@ public class Main extends javax.swing.JFrame {
         boolean isRentable = false;
         boolean isAgregado= false;
         
-        if (cb_rentable.getSelectedItem().toString().equals("Si")) {
+        if (cb_rentable.getSelectedItem().equals("Si")) {
             isRentable = true;
         }
-        if (cb_agregado.getSelectedItem().toString().equals("Si")) {
+        if (cb_agregado.getSelectedItem().equals("Si")) {
             isAgregado = true;
         }
+        
+        juegos.add(new Juego(tf_nombre.getText(), tf_descripcion.getText(), cb_estado.getSelectedItem().toString(), dc_date.getDate(), Double.parseDouble(tf_precioJuego.getText()), isRentable, isAgregado, (int)sp_cantDisp.getModel().getValue()));
         
         modelList.addElement(new Juego(tf_nombre.getText(), tf_descripcion.getText(), cb_estado.getSelectedItem().toString(), dc_date.getDate(), Double.parseDouble(tf_precioJuego.getText()), isRentable, isAgregado, (int)sp_cantDisp.getModel().getValue()));
         
@@ -897,15 +943,53 @@ public class Main extends javax.swing.JFrame {
         cb_rentable.setSelectedIndex(-1);
         cb_agregado.setSelectedIndex(-1);
         sp_cantDisp.setValue(0);
+        
+        JOptionPane.showMessageDialog(jd_addJuego, "Se ha agregado exitosamente");
+        jd_addJuego.setVisible(false);
     }//GEN-LAST:event_btn_addJuegoMouseClicked
 
     private void JuegosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JuegosActionPerformed
-        
-        
-        jd_listaJuegos.setVisible(true);
         jd_listaJuegos.pack();
-        jd_listaJuegos.setLocationRelativeTo(jd_portatil);
+        jd_listaJuegos.setVisible(true);
+        jd_listaJuegos.setLocationRelativeTo(this);
+        
+        
     }//GEN-LAST:event_JuegosActionPerformed
+
+    private void btn_changeAddMenuPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_changeAddMenuPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_changeAddMenuPortActionPerformed
+
+    private void btn_changeAddMenuEstMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_changeAddMenuEstMouseClicked
+        jd_addJuego.setVisible(true);
+        jd_addJuego.pack();
+        jd_addJuego.setLocationRelativeTo(jd_portatil);
+    }//GEN-LAST:event_btn_changeAddMenuEstMouseClicked
+
+    private void btn_changeAddMenuEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_changeAddMenuEstActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_changeAddMenuEstActionPerformed
+
+    private void EliminarJActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarJActionPerformed
+        
+        
+        int ans = JOptionPane.showConfirmDialog(this, "Seguro que desea eliminar la consola?");
+
+        if (ans == JOptionPane.OK_OPTION) {
+            DefaultListModel ml = (DefaultListModel) jl_juegos.getModel();
+            int selRow = jl_juegos.getSelectedIndex();
+            ml.removeElementAt(selRow);
+            
+            jl_juegos.setModel(ml);
+        }
+        
+    }//GEN-LAST:event_EliminarJActionPerformed
+
+    private void jl_juegosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_juegosMouseClicked
+        if (evt.isMetaDown()){
+            jp_showMenuJ.show(evt.getComponent(), evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jl_juegosMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -941,15 +1025,19 @@ public class Main extends javax.swing.JFrame {
 
     public boolean hasEst;
     Tienda tienda = new Tienda();
+    ArrayList<Juego> juegos = new ArrayList<>();
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Eliminar;
+    private javax.swing.JMenuItem EliminarJ;
     private javax.swing.JMenuItem Juegos;
     private javax.swing.JMenuItem Modificar;
+    private javax.swing.JMenuItem ModificarJ;
     private javax.swing.JButton btn_addEstacionaria;
     private javax.swing.JButton btn_addJuego;
     private javax.swing.JButton btn_addPortatil;
+    private javax.swing.JButton btn_changeAddMenuEst;
     private javax.swing.JButton btn_changeAddMenuPort;
     private javax.swing.JComboBox<String> cb_agregado;
     private javax.swing.JComboBox<String> cb_conexiones;
@@ -994,6 +1082,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JDialog jd_portatil;
     private javax.swing.JList<String> jl_juegos;
     private javax.swing.JPopupMenu jp_showMenu;
+    private javax.swing.JPopupMenu jp_showMenuJ;
     private javax.swing.JTable jt_consolas;
     private javax.swing.JSpinner sp_cantDisp;
     private javax.swing.JSpinner sp_numcontroles;
